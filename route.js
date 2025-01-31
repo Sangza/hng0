@@ -9,7 +9,6 @@ router.get("/:retrieve", async (req, res) => {
   };
 
   res.send(body);
-  res.json(body);
 });
 
-exports.module = router;
+module.exports = router;
