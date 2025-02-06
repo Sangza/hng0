@@ -10,9 +10,10 @@ const {
     getProperties
   } = require('./maths');
 
-router.get('/api/classify-number/:number?',async (req,res)=>{
+router.get('/api/classify-number',async (req,res)=>{
+ 
 
-const numberQuery = req.params.number;
+const numberQuery = req.query.number;
 
 if (!numberQuery || isNaN(Number(numberQuery)) || !Number.isInteger(Number(numberQuery))) {
     return res.status(400).json({
