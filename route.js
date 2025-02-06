@@ -12,7 +12,7 @@ const {
 
 router.get('/api/classify-number/:number?',async (req,res)=>{
 
-const numberNum =req.params.number;
+const numberQuery = req.params.number;
 
 if (!numberQuery || isNaN(Number(numberQuery)) || !Number.isInteger(Number(numberQuery))) {
     return res.status(400).json({
@@ -20,7 +20,7 @@ if (!numberQuery || isNaN(Number(numberQuery)) || !Number.isInteger(Number(numbe
       error: true
     });
   }
-const num = parseInt(numberNum);
+const num = parseInt(numberQuery);
 
 try {
     const funFact = await getFunFact(num);
