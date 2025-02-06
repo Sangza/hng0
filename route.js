@@ -10,17 +10,19 @@ const {
     getProperties
   } = require('./maths');
 
-router.get('/api/classify-number/:number', async (req,res)=>{
+router.get('/api/classify-number/:number?',async (req,res)=>{
 
-const num = parseInt(req.params.number);
+const numberNum =req.params.number;
 
-    if (isNaN(num)) {
-        return res.status(400).json({
-            "number": number,
-            "error": true
-        });
-    }
+if (!numberQuery || isNaN(Number(numberQuery)) || !Number.isInteger(Number(numberQuery))) {
+    return res.status(400).json({
+      number: numberQuery,
+      error: true
+    });
+  }
+const num = parseInt(numberNum);
 
+try {
     const funFact = await getFunFact(num);
     const prime = checkIfPrime(num);
     const perfect = checkIfComplete(num);
@@ -35,6 +37,13 @@ const num = parseInt(req.params.number);
         "digit_sum": digitSum,
         "fun_fact": funFact
     });
+} catch (error) {
+    return res.status(500).json({
+        error: "Internal Server Error",
+        message: error.message
+      });
+}
+
   
 })
 
