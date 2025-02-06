@@ -11,16 +11,16 @@ const {
   } = require('./maths');
 
 router.get('/api/classify-number/:number?',async (req,res)=>{
-  const inputNumber = (typeof req.query.number !== 'undefined') ? req.query.number : '';
 
-  
-  if (inputNumber === '' || isNaN(Number(inputNumber)) || !Number.isInteger(Number(inputNumber))) {
+const numberQuery = req.params.number;
+
+if (!numberQuery || isNaN(Number(numberQuery)) || !Number.isInteger(Number(numberQuery))) {
     return res.status(400).json({
-      number: inputNumber,
-      error: true
+      number: numberQuery ? numberQuery: "",
+      error: true 
     });
   }
-const num = parseInt(inputNumber);
+const num = parseInt(numberQuery);
 
 try {
     const funFact = await getFunFact(num);
