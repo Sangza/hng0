@@ -1,70 +1,132 @@
-## **Project Description**
-This project is a simple Express.js backend API for the hng level 0 that provides a response containing an email, the current date and time generated in ISO 8601 format, and my GitHub URL to this project. The API supports Cross-Origin Resource Sharing (CORS) and is designed to be lightweight and easy to deploy.
+# Number Classifier API
 
+The **Number Classifier API** is a Node.js Express application that classifies a given number based on several mathematical properties. It determines if the number is prime, perfect, Armstrong, and whether it's odd or even. In addition, it calculates the sum of its digits and retrieves a fun fact about the number from the Numbers API.
 
-## **Setup Instructions**
+## Table of Contents
 
-### **Prerequisites**
-Ensure you have the following installed:
-- [Node.js](https://nodejs.org/) (v14 or later)
-- npm (Node Package Manager)
+- [Features](#features)
+- [API Specification](#api-specification)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Error Handling](#error-handling)
+- [License](#license)
 
-### **Installation Steps**
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/Sangza/hng0.git
-   cd hng0
+## Features
+
+- **Prime Check:** Determines if a number is prime.
+- **Perfect Number Check:** Determines if a number is perfect (i.e., the sum of its proper divisors equals the number).
+- **Armstrong Check:** Identifies if a number is an Armstrong number.
+- **Odd/Even Determination:** Checks if the number is odd or even.
+- **Digit Sum Calculation:** Computes the sum of all the digits in the number.
+- **Fun Fact Retrieval:** Fetches a math-related fun fact from the [Numbers API](http://numbersapi.com).
+
+## API Specification
+
+### Endpoint
+
+**GET** `/api/classify-number?number=<number>`
+
+### Request Parameter
+
+- `number`: A valid integer passed as a query parameter.
+
+### Successful Response (200 OK)
+
+For example, a GET request with `?number=371` returns:
+
+```json
+{
+  "number": 371,
+  "is_prime": false,
+  "is_perfect": false,
+  "properties": ["armstrong", "odd"],
+  "digit_sum": 11,
+  "fun_fact": "371 is an Armstrong number because 3^3 + 7^3 + 1^3 = 371"
+}
+```
+
+### Error Response (400 Bad Request)
+
+If the `number` query parameter is not a valid integer (e.g., `?number=alphabet`), the API responds with:
+
+```json
+{
+  "number": "alphabet",
+  "error": true
+}
+```
+
+## Installation
+
+1. **Clone the Repository**
+
+   Open your terminal or command prompt and run:
+
+   ```bash
+   git clone https://github.com/your-username/number-classifier-api.git
+   cd number-classifier-api
    ```
 
-2. Install dependencies:
-   ```sh
+2. **Install Dependencies**
+
+   Ensure you have [Node.js](https://nodejs.org/) installed, then run:
+
+   ```bash
    npm install
    ```
 
-3. Start the server:
-   ```sh
-   node index.js
+## Usage
+
+1. **Start the Server**
+
+   Launch the application by running:
+
+   ```bash
+   npm start
    ```
-   The server will start on port **3000** (or a custom port set via environment variables).
 
-## **API Documentation**
+   The server will start on port `3000` by default (or the port specified in your `PORT` environment variable).
 
-### **Base URL**
+2. **Test the API**
+
+   Open your browser or use a tool like [Postman](https://www.postman.com/) or `curl` to access the endpoint. For example:
+
+   ```bash
+   curl "http://localhost:3000/api/classify-number?number=371"
+   ```
+
+   You should see a JSON response that classifies the number and includes a fun fact.
+
+## Project Structure
+
 ```
-http://localhost:3000/
+number-classifier-api/
+├── index.js          # Main server file setting up the Express app
+├── maths.js        # Contains mathematical functions and fun fact retrieval logic
+├── route.js        # Defines the API endpoint and request handling
+├── package.json    # Project metadata and dependencies
+└── README.md       # This documentation file
 ```
 
-### **Endpoints**
-#### **1. Retrieve Data**
-- **Endpoint:** `/`
-- **Method:** `GET`
-- **Description:** Returns a JSON object containing an email, the current date/time, and a GitHub URL.
+- **index.js**: Initializes the Express server and mounts the route.
+- **maths.js**: Exports functions that perform number classification and fetch fun facts.
+- **route.js**: Contains the `/api/classify-number` endpoint which uses the functions from `maths.js`.
 
-#### **Request Format**
-No request body is required.
+## Error Handling
 
-#### **Response Format**
-- **Success Response (200 OK)**
+- **Input Validation:**  
+  The API validates that the `number` query parameter is a valid integer. If it is not (for example, `"alphabet"`), a `400 Bad Request` response is sent with:
+  
   ```json
   {
-    "email": "ucheokenyidm@gmail.com",
-    "current_datatime": "2024-01-31T12:34:56.789Z",
-    "github_url": "https://github.com/Sangza/hng0"
+    "number": "alphabet",
+    "error": true
   }
   ```
 
-## **Environment Variables**
-- `PORT` (optional): Defines the port the server will run on (default: `3000`).
+- **External API Issues:**  
+  If there's an error retrieving the fun fact from the Numbers API, the error is logged and a fallback message is provided.
 
-## **Technologies Used**
-- Node.js
-- Express.js
-
-## **Contributing**
-Feel free to fork the repository and submit a pull request with any improvements!
-
-## **Author**
-- **Uche Okeny**
-- GitHub: [Sangza](https://github.com/Sangza/hng0)
 
 
